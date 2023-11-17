@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-export default function App() {
+import Product from './screen/Product';
+import Home from './screen/Home';
+import { View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+
+const Stack = createNativeStackNavigator();
+
+const HomeNavigation = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName='Home'>
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <Stack.Screen name="Product" component={Product} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+const Tab = createBottomTabNavigator();
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeNavigation} options={{ headerShown: false }} />
+      <Tab.Screen name="Product" component={Product} />
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App = (props) => {
+  return (
+    <View style={{ flex: 1 }}>
+      {/* <StatusBar hidden={true} /> */}
+      <NavigationContainer>
+        <MyTabs />
+      </NavigationContainer>
+    </View>
+  );
+};
