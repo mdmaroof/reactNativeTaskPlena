@@ -8,41 +8,25 @@ import {
     FlatList,
     TouchableOpacity,
     ScrollView,
-    RefreshControl
+    RefreshControl,
+    Image
 } from 'react-native';
 import BrokenImage from '../assets/svg/brokenImage';
 import SearchButton from '../assets/svg/searchButton';
-import CartBagIcon from '../assets/svg/bag';
-import { FavoriteIcon1 } from '../assets/svg/favouriteIcon';
 
-const dataCarousel = [
-    { id: '1', text: 'Item 1' },
-    { id: '2', text: 'Item 2' },
-    { id: '3', text: 'Item 3' },
-];
+import { FavoriteIcon1 } from '../assets/svg/favouriteIcon';
+import { CartBag } from '../component/common/cartBag';
+import TopBox, { HeaderBox } from '../component/Home/topBox';
+import Carousel from '../component/Home/carousel';
+
 
 export default function Home({ navigation }) {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [inputValue, setInput] = useState(null);
 
-    const renderItem = ({ item, index }) => (
-        <TouchableOpacity
-            style={styles.item}
-        >
-            <View style={{ justifyContent: 'center', paddingLeft: 15, marginRight: 25 }}>
-                <BrokenImage color='#fff' />
-            </View>
-            <View style={{ flex: 1, justifyContent: 'center', gap: 2 }}>
 
-                <Text style={{ color: '#fff', fontSize: 25 }}>Get</Text>
-                <Text style={{ color: '#fff', fontSize: 30, fontWeight: 600 }}>50% OFF</Text>
-                <Text style={{ color: '#fff', fontSize: 16 }}>On First 03 Order</Text>
-            </View>
-        </TouchableOpacity>
-    );
 
     const renderItemList = ({ item, index }) => {
         return (
@@ -52,21 +36,27 @@ export default function Home({ navigation }) {
                     marginHorizontal: 4,
                     height: 200,
                     borderRadius: 10,
-                    padding: 10,
                     backgroundColor: '#F8F9FB',
                     position: 'relative'
                 }}
             >
-                <TouchableOpacity style={{ position: 'absolute', left: 15, top: 15 }}>
+                <TouchableOpacity
+                    onPress={() => alert('hello')}
+                    style={{ position: 'absolute', left: 15, top: 15, zIndex: 1 }}>
                     <View >
-                        <FavoriteIcon1 />
+                        <FavoriteIcon1 fill="#fff" />
                     </View>
                 </TouchableOpacity>
 
-                <View style={{ alignItems: 'center', flex: 1, marginVertical: 20 }}>
-                    <BrokenImage />
+                <View
+                    onPress={() => navigation.push('Product', { id: item.id })}
+                    style={{ alignItems: 'center', flex: 1 }}>
+                    <Image
+                        style={{ width: '100%', height: '100%', resizeMode: 'cover', borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
+                        source={{ uri: item.thumbnail }}
+                    />
                 </View>
-                <View style={{ marginVertical: 10, flexDirection: 'row', alignItems: 'flex-start' }}>
+                <View style={{ marginVertical: 10, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'flex-start' }}>
                     <TouchableOpacity
                         onPress={() => navigation.push('Product', { id: item.id })}
                         style={{ flex: 1 }}>
@@ -129,71 +119,9 @@ export default function Home({ navigation }) {
                     stickyHeaderIndices={[0]}
                     showsVerticalScrollIndicator={false}
                 >
-
-                    {/* Welocme and cart */}
-                    <View>
-                        <View style={styles.topRow}>
-                            <Text style={styles.welcomeText}>Hey,Rahul</Text>
-                            <TouchableOpacity>
-                                <View style={{ position: 'relative' }}>
-                                    <View style={{
-                                        position: 'absolute',
-                                        width: 20, height: 20,
-                                        backgroundColor: '#F9B023',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        borderRadius: 50,
-                                        zIndex: 1,
-                                        borderWidth: 2,
-                                        borderColor: '#2A4BA0',
-                                        right: -10,
-                                        top: -10,
-                                    }}>
-                                        <Text style={{ color: '#fff', fontSize: 10 }}>3</Text>
-                                    </View>
-                                    <CartBagIcon color='#fff' />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    {/* search */}
-                    <View style={{ paddingTop: 30, paddingBottom: 10, paddingHorizontal: 20, backgroundColor: '#2A4BA0' }}>
-                        <View style={styles.searchInput} >
-                            <SearchButton />
-                            <TextInput
-                                style={{ color: '#fff' }}
-                                placeholderTextColor="#8891A5"
-                                value={inputValue}
-                                onChangeText={setInput}
-                                placeholder="Search Product or Store" />
-                        </View>
-                    </View>
-
-                    {/* Address and time */}
-                    <View style={{ paddingBottom: 15, paddingTop: 20, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, backgroundColor: '#2A4BA0' }}>
-                        <View>
-                            <Text style={{ color: '#F8F9FB', textTransform: 'uppercase', fontSize: 12 }}>Delivery to</Text>
-                            <Text style={{ color: '#ffffff', paddingTop: 5, fontSize: 18 }}>MAroof</Text>
-                        </View>
-                        <View>
-                            <Text style={{ color: '#F8F9FB', textTransform: 'uppercase', fontSize: 12 }}>Within</Text>
-                            <Text style={{ color: '#ffffff', paddingTop: 5, fontSize: 18 }}>MAroof</Text>
-                        </View>
-                    </View>
-
-                    {/* carousel */}
-                    <View style={{ paddingVertical: 20 }}>
-                        <FlatList
-                            data={dataCarousel}
-                            renderItem={renderItem}
-                            horizontal
-                            snapToAlignment={'center'}
-                            decelerationRate={'fast'}
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={(item) => item.id}
-                        />
-                    </View>
+                    <HeaderBox />
+                    <TopBox />
+                    <Carousel />
 
                     <View style={{ marginBottom: 10, paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 30 }}>Recommended</Text>
@@ -225,40 +153,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFFFF',
     },
-    topRow: {
-        backgroundColor: '#2A4BA0',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 40,
-        paddingBottom: 10,
-    },
-    welcomeText: {
-        color: '#fff',
-        fontSize: 28
-    },
-    searchInput: {
-        padding: 10,
-        color: '#ffffff',
-        backgroundColor: '#153075',
-        borderRadius: 50,
-        fontSize: 16,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-        paddingLeft: 20,
-    },
 
-    item: {
-        backgroundColor: '#F9B023',
-        borderRadius: 20,
-        margin: 10,
-        padding: 10,
-        width: 300,
-        height: 150,
-        flexDirection: 'row',
-    },
     text: {
         fontSize: 18,
     },
