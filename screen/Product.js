@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import BackChevron from '../assets/svg/backChevron';
 
@@ -64,9 +64,9 @@ export default function Product({ navigation, route, }) {
         );
     };
 
-    const renderItem = (item) => {
+    const renderItem = (item, index) => {
         return (
-            <View>
+            <View key={index}>
                 <Image
                     style={{ width: width, height: 200, resizeMode: 'cover' }}
                     source={{ uri: item }}
@@ -77,49 +77,110 @@ export default function Product({ navigation, route, }) {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
             <View style={styles.container}>
+                {loading && <Text>Loading</Text>}
+                {!loading && (
+                    <Fragment>
+                        <View style={styles.topRow}>
+                            {/* back Button */}
+                            <TouchableOpacity onPress={() => navigation.goBack()} >
+                                <View style={styles.backButton} >
+                                    <BackChevron />
+                                </View>
+                            </TouchableOpacity>
 
-                <View style={styles.topRow}>
-                    {/* back Button */}
-                    <TouchableOpacity onPress={() => navigation.goBack()} >
-                        <View style={styles.backButton} >
-                            <BackChevron />
+                            <View>
+                                <Text>Maroof</Text>
+                            </View>
                         </View>
-                    </TouchableOpacity>
-
-                    <View>
-                        <Text>Maroof</Text>
-                    </View>
-                </View>
 
 
-                <View style={{ paddingHorizontal: 20 }}>
-                    <Text numberOfLines={1} style={{ fontSize: 50, fontWeight: 200 }}>
-                        {data?.brand}
-                    </Text>
-                    <Text
-                        numberOfLines={1}
-                        style={{ fontSize: 50, fontWeight: 500 }}
-                    >
-                        {data?.title}
-                    </Text>
+                        <View style={{ paddingHorizontal: 20 }}>
+                            <Text numberOfLines={1} style={{ fontSize: 50, fontWeight: 200 }}>
+                                {data?.brand}
+                            </Text>
+                            <Text
+                                numberOfLines={1}
+                                style={{ fontSize: 50, fontWeight: 500 }}
+                            >
+                                {data?.title}
+                            </Text>
 
-                </View>
+                        </View>
 
 
-                <View style={styles.carousel}>
-                    <ScrollView
-                        horizontal
-                        pagingEnabled
-                        decelerationRate="fast"
-                        scrollEventThrottle={16}
-                        onScroll={onScroll}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        {data?.images.map(renderItem)}
-                    </ScrollView>
-                    {renderDots()}
-                </View>
+                        <View style={styles.carousel}>
+                            <ScrollView
+                                horizontal
+                                pagingEnabled
+                                decelerationRate="fast"
+                                scrollEventThrottle={16}
+                                onScroll={onScroll}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                {data?.images.map(renderItem)}
+                            </ScrollView>
+                            {renderDots()}
+                        </View>
 
+                        <View style={{ paddingHorizontal: 20, flexDirection: 'row', marginTop: 20, gap: 10, alignItems: 'center' }}>
+                            <Text style={{
+                                fontSize: 24,
+                                color: '#2A4BA0',
+                                fontWeight: 800
+                            }}>
+                                ${data?.price}
+                            </Text>
+                            <View style={{
+                                borderRadius: 20,
+                                backgroundColor: '#2A4BA0',
+                                paddingHorizontal: 10,
+                                paddingVertical: 4,
+                            }}
+                            >
+                                <Text style={{
+                                    fontSize: 12,
+                                    color: '#fff',
+                                }}>
+                                    {data?.discountPercentage}% OFF
+                                </Text>
+                            </View>
+                        </View>
+
+
+                        <View style={{ flexDirection: 'row', gap: 10, paddingHorizontal: 20, marginVertical: 20 }}>
+                            <TouchableOpacity style={{ flex: 1 }}>
+                                <View style={{
+                                    alignItems: 'center',
+                                    borderWidth: 1,
+                                    borderColor: '#2A4BA0',
+                                    paddingVertical: 20,
+                                    borderRadius: 20,
+                                }}>
+                                    <Text style={{ color: '#2A4BA0' }}>Add to Cart</Text>
+                                </View>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{ flex: 1 }}>
+                                <View style={{
+                                    flex: 1,
+                                    alignItems: 'center',
+                                    borderWidth: 1,
+                                    backgroundColor: '#2A4BA0',
+                                    paddingVertical: 20,
+                                    borderRadius: 20,
+                                    borderColor: '#2A4BA0'
+                                }}>
+                                    <Text style={{ color: '#fff' }}>Buy Now</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ paddingHorizontal: 20 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 600 }}>Detail</Text>
+                            <Text style={{ color: '#8891A5', fontSize: 16 }}>{data?.description}</Text>
+                        </View>
+                    </Fragment>
+                )}
 
             </View>
         </SafeAreaView>

@@ -11,6 +11,9 @@ import {
     RefreshControl
 } from 'react-native';
 import BrokenImage from '../assets/svg/brokenImage';
+import SearchButton from '../assets/svg/searchButton';
+import CartBagIcon from '../assets/svg/bag';
+import { FavoriteIcon1 } from '../assets/svg/favouriteIcon';
 
 const dataCarousel = [
     { id: '1', text: 'Item 1' },
@@ -23,14 +26,14 @@ export default function Home({ navigation }) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [inputValue, setInput] = useState(null);
 
     const renderItem = ({ item, index }) => (
         <TouchableOpacity
             style={styles.item}
         >
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-
-                <Text>{item.text}</Text>
+            <View style={{ justifyContent: 'center', paddingLeft: 15, marginRight: 25 }}>
+                <BrokenImage color='#fff' />
             </View>
             <View style={{ flex: 1, justifyContent: 'center', gap: 2 }}>
 
@@ -43,8 +46,7 @@ export default function Home({ navigation }) {
 
     const renderItemList = ({ item, index }) => {
         return (
-            <TouchableOpacity
-                onPress={() => navigation.push('Product', { id: item.id })}
+            <View
                 style={{
                     flex: 1,
                     marginHorizontal: 4,
@@ -55,14 +57,22 @@ export default function Home({ navigation }) {
                     position: 'relative'
                 }}
             >
+                <TouchableOpacity style={{ position: 'absolute', left: 15, top: 15 }}>
+                    <View >
+                        <FavoriteIcon1 />
+                    </View>
+                </TouchableOpacity>
+
                 <View style={{ alignItems: 'center', flex: 1, marginVertical: 20 }}>
                     <BrokenImage />
                 </View>
                 <View style={{ marginVertical: 10, flexDirection: 'row', alignItems: 'flex-start' }}>
-                    <View style={{ flex: 1 }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.push('Product', { id: item.id })}
+                        style={{ flex: 1 }}>
                         <Text style={{ fontSize: 16, fontWeight: 700, marginBottom: 2 }}>${item.price}</Text>
                         <Text numberOfLines={1} style={{ color: '#616A7D' }}>{item.title}</Text>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={{ marginLeft: 20 }}>
 
@@ -87,7 +97,7 @@ export default function Home({ navigation }) {
                     </View>
 
                 </View>
-            </TouchableOpacity>
+            </View >
         )
     }
 
@@ -124,15 +134,40 @@ export default function Home({ navigation }) {
                     <View>
                         <View style={styles.topRow}>
                             <Text style={styles.welcomeText}>Hey,Rahul</Text>
-                            <Text>Hey,Rahul</Text>
+                            <TouchableOpacity>
+                                <View style={{ position: 'relative' }}>
+                                    <View style={{
+                                        position: 'absolute',
+                                        width: 20, height: 20,
+                                        backgroundColor: '#F9B023',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: 50,
+                                        zIndex: 1,
+                                        borderWidth: 2,
+                                        borderColor: '#2A4BA0',
+                                        right: -10,
+                                        top: -10,
+                                    }}>
+                                        <Text style={{ color: '#fff', fontSize: 10 }}>3</Text>
+                                    </View>
+                                    <CartBagIcon color='#fff' />
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
                     {/* search */}
-                    <View style={{ paddingTop: 30, paddingBottom: 10, paddingHorizontal: 60, backgroundColor: '#2A4BA0' }}>
-                        <TextInput
-                            placeholderTextColor="#8891A5"
-                            style={styles.searchInput} value={''} placeholder="useless placeholder" />
+                    <View style={{ paddingTop: 30, paddingBottom: 10, paddingHorizontal: 20, backgroundColor: '#2A4BA0' }}>
+                        <View style={styles.searchInput} >
+                            <SearchButton />
+                            <TextInput
+                                style={{ color: '#fff' }}
+                                placeholderTextColor="#8891A5"
+                                value={inputValue}
+                                onChangeText={setInput}
+                                placeholder="Search Product or Store" />
+                        </View>
                     </View>
 
                     {/* Address and time */}
@@ -204,12 +239,15 @@ const styles = StyleSheet.create({
         fontSize: 28
     },
     searchInput: {
-        borderWidth: 1,
-        borderColor: '#ffffff',
         padding: 10,
         color: '#ffffff',
+        backgroundColor: '#153075',
         borderRadius: 50,
-        fontSize: 16
+        fontSize: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        paddingLeft: 20,
     },
 
     item: {
