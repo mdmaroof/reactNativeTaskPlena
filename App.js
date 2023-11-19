@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Product from './screen/Product';
 import Home from './screen/Home';
 import Cart from './screen/Cart';
+import { MainProvider } from './context/mainContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,10 +20,10 @@ function MyTabs() {
   );
 }
 
-const Navigation = (props) => {
+const Navigation = () => {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName='Home'
+      <Stack.Navigator initialRouteName='HomeTab'
       >
         <Stack.Screen name="HomeTab" component={MyTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Product" component={Product} options={{ headerShown: false }} />
@@ -32,10 +33,12 @@ const Navigation = (props) => {
   )
 }
 
-export default App = (props) => {
+export default App = () => {
   return (
     <View style={{ flex: 1 }}>
-      <Navigation />
+      <MainProvider>
+        <Navigation />
+      </MainProvider>
     </View>
   );
 };
