@@ -1,4 +1,11 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+    FlatList,
+    Image,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GetDataContext } from '../context/mainContext';
@@ -61,19 +68,16 @@ export default function Cart({ navigation }) {
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+
                     <TouchableOpacity onPress={() => substract(item.id)} >
-                        <View style={styles.addedSubstractButton} >
-                            <Text style={{ fontSize: 24 }}>
-                                <Substract />
-                            </Text>
+                        <View style={styles.addedSubstractButton}>
+                            <Substract />
                         </View>
                     </TouchableOpacity>
                     <Text>{item.qty}</Text>
                     <TouchableOpacity onPress={() => addition(item.id)} >
                         <View style={styles.addedSubstractButton}>
-                            <Text style={{ fontSize: 24 }}>
-                                <Plus />
-                            </Text>
+                            <Plus />
                         </View>
                     </TouchableOpacity>
 
@@ -180,9 +184,9 @@ const styles = StyleSheet.create({
     },
     addedSubstractButton: {
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#F8F9FB',
         borderRadius: 50,
-        alignItems: 'center',
         width: 40,
         height: 40
     },

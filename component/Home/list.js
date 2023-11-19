@@ -1,10 +1,11 @@
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native"
 import { FavoriteIcon1 } from "../../assets/svg/favouriteIcon"
 import { GetDataContext } from "../../context/mainContext";
+import { Plus } from "../../assets/svg/plusMinus";
 
 export default List = ({ loading, data, navigation }) => {
 
-    const { cartData, fav, setCartData } = GetDataContext();
+    const { cartData, fav, setCartData ,setFav} = GetDataContext();
 
     const addToCart = (item) => {
         setCartData(prev => [...prev, { ...item, qty: 1 }])
@@ -18,16 +19,24 @@ export default List = ({ loading, data, navigation }) => {
                 style={{
                     flex: 1,
                     marginHorizontal: 4,
-                    height: 200,
+                    height: Platform.OS === 'ios' && 220 || 200,
                     borderRadius: 10,
                     backgroundColor: '#F8F9FB',
                     position: 'relative'
                 }}
             >
 
-                <View style={{ position: 'absolute', left: 15, top: 15, zIndex: 1 }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (favAdded) {
+                            setFav(prev => prev.filter(z => z !== item.id))
+                        } else {
+                            setFav(prev => [...prev, item.id])
+                        }
+                    }}
+                    style={{ position: 'absolute', left: 0, top: 0, zIndex: 1, padding: 15 }}>
                     <FavoriteIcon1 fill={favAdded && '#ff0000' || "#fff"} />
-                </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={() => navigation.push('Product', { id: item.id })}
@@ -61,13 +70,7 @@ export default List = ({ loading, data, navigation }) => {
                                     alignItems: 'center'
                                 }}
                             >
-                                <Text style={{
-                                    color: '#fff',
-                                    fontSize: 25,
-                                    textAlign: 'center'
-                                }}>
-                                    +
-                                </Text>
+                                <Plus color="#fff" size={30} />
                             </TouchableOpacity>
                         )}
 
