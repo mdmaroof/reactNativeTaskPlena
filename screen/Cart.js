@@ -63,7 +63,7 @@ export default function Cart({ navigation }) {
                     </View>
                     <View>
                         <Text style={{ fontSize: 18, fontWeight: '500' }}>{item.title}</Text>
-                        <Text style={{ fontSize: 18, fontWeight: '300' }}>${item.price}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: '300' }}>${item.price.toFixed(2)}</Text>
                     </View>
                 </View>
 
@@ -107,8 +107,10 @@ export default function Cart({ navigation }) {
                     </TouchableOpacity>
 
                     <View>
-                        <Text style={{ marginLeft: 15, fontSize: 18, fontWeight: 500 }}>Shopping Cart</Text>
+                        <Text style={{ marginLeft: 15, fontSize: 18, fontWeight: 500 }}>Shopping Cart ({cartData.length})</Text>
                     </View>
+
+
                 </View>
 
                 {cartData.length > 0 && (
@@ -133,17 +135,17 @@ export default function Cart({ navigation }) {
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 20, color: '#616A7D' }}>Subtotal</Text>
-                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${subtotal()}</Text>
+                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${subtotal().toFixed(2)}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 20, color: '#616A7D' }}>Delivery</Text>
-                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${deliveryCharge}</Text>
+                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${deliveryCharge.toFixed(2)}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 20, color: '#616A7D' }}>Total</Text>
-                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${subtotal() + deliveryCharge}</Text>
+                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${(subtotal() + deliveryCharge).toFixed(2)}</Text>
                     </View>
 
                     <TouchableOpacity style={{

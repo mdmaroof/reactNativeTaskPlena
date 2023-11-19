@@ -89,7 +89,7 @@ export default function Product({ navigation, route, }) {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
             <View style={styles.container}>
-                {loading && <Text>Loading</Text>}
+                {loading && <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}><Text>Loading</Text></View>}
                 {!loading && (
                     <>
                         <TopHeader navigation={navigation} />
