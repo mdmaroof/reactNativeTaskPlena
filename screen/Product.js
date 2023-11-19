@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import TopHeader from '../component/Product/topHeader';
 import Carousel from '../component/Product/carousel';
 import Rating from '../component/Product/rating';
+import Buttons from '../component/Product/buttons';
 
 const TopHeading = ({ data }) => {
     return (
@@ -92,40 +93,11 @@ export default function Product({ navigation, route, }) {
                 {!loading && (
                     <>
                         <TopHeader navigation={navigation} />
-
                         <TopHeading data={data} />
                         <Rating data={data} />
                         <Carousel data={data} />
                         <Pricing data={data} />
-                        
-                        <View style={{ flexDirection: 'row', gap: 10, paddingHorizontal: 20, marginVertical: 20 }}>
-                            <TouchableOpacity style={{ flex: 1 }}>
-                                <View style={{
-                                    alignItems: 'center',
-                                    borderWidth: 1,
-                                    borderColor: '#2A4BA0',
-                                    paddingVertical: 20,
-                                    borderRadius: 20,
-                                }}>
-                                    <Text style={{ color: '#2A4BA0' }}>Add to Cart</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity style={{ flex: 1 }}>
-                                <View style={{
-                                    flex: 1,
-                                    alignItems: 'center',
-                                    borderWidth: 1,
-                                    backgroundColor: '#2A4BA0',
-                                    paddingVertical: 20,
-                                    borderRadius: 20,
-                                    borderColor: '#2A4BA0'
-                                }}>
-                                    <Text style={{ color: '#fff' }}>Buy Now</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-
+                        <Buttons data={data} />
                         <DetailSection data={data} />
                     </>
                 )}

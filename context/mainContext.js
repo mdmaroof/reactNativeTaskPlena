@@ -4,7 +4,7 @@ export const ContextProvider = createContext();
 
 export const MainProvider = ({ children }) => {
     const [cartData, setCartData] = useState([]);
-    const [fav, setFav] = useState({});
+    const [fav, setFav] = useState([]);
     
     return (
         <ContextProvider.Provider value={{ cartData, setCartData, fav, setFav }}>

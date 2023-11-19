@@ -1,9 +1,37 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { GetDataContext } from '../context/mainContext';
 import BackChevron from '../assets/svg/backChevron';
 
 
 export default function Cart({ navigation }) {
+    const { cartData, setCartData } = GetDataContext();
+
+    const renderItem = ({ item, index }) => (
+        <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
+            <View style={{
+                flexDirection: 'row',
+                paddingBottom: 20,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottomWidth: 1,
+                borderColor: '#EBEBFB'
+            }}>
+                <View>
+                    <Text style={{ fontSize: 18 }}>{item.title}</Text>
+                    <Text style={{ fontSize: 18 }}>${item.price}</Text>
+                </View>
+
+                <View>
+                    <Text>Banana</Text>
+                    <Text>Banana</Text>
+                </View>
+            </View>
+        </View>
+
+    )
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}
             edges={['right', 'left', 'top']}
@@ -23,31 +51,16 @@ export default function Cart({ navigation }) {
                     </View>
                 </View>
 
-                <ScrollView style={{ flex: 1, marginBottom: 40 }}>
-
-                    <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
-                        <View style={{
-                            flexDirection: 'row',
-                            paddingBottom: 20,
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            borderBottomWidth: 1,
-                            borderColor: '#EBEBFB'
-                        }}>
-                            <View>
-                                <Text style={{ fontSize: 18 }}>Banana</Text>
-                                <Text style={{ fontSize: 18 }}>$7.90</Text>
-                            </View>
-
-                            <View>
-                                <Text>Banana</Text>
-                                <Text>Banana</Text>
-                            </View>
-                        </View>
-                    </View>
-
-
-                </ScrollView>
+           
+                <View style={{ flex: 1, marginBottom: 40 }}>
+                    <FlatList
+                        data={cartData}
+                        renderItem={renderItem}
+                        snapToAlignment={'center'}
+                        decelerationRate={'fast'}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </View>
 
                 <View style={styles.footer}>
 

@@ -1,12 +1,17 @@
 import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
 import { FavoriteIcon2 } from "../../assets/svg/favouriteIcon"
 import { useState } from "react";
+import { GetDataContext } from "../../context/mainContext";
 
 const width = Dimensions.get('window').width;
 
 
-export default Carousel = ({data}) => {
+export default Carousel = ({ data }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const { fav, setFav } = GetDataContext();
+
+    const favAdded = fav.some(z => z === data.id);
 
     const onScroll = (event) => {
         const offset = event.nativeEvent.contentOffset.x;
@@ -49,6 +54,8 @@ export default Carousel = ({data}) => {
         );
     }
 
+    fav
+
     return (
         <View style={styles.carousel}>
 
@@ -57,13 +64,21 @@ export default Carousel = ({data}) => {
                 right: 10,
                 top: 10,
                 zIndex: 1,
-            }}>
+            }}
+                onPress={() => {
+                    if (favAdded) {
+                        setFav(prev => prev.filter(z => z !== data.id))
+                    } else {
+                        setFav(prev => [...prev, data.id])
+                    }
+                }}
+            >
                 <View style={{
                     backgroundColor: '#fff',
                     padding: 10,
                     borderRadius: 15
                 }}>
-                    <FavoriteIcon2 />
+                    <FavoriteIcon2 fill={favAdded && '#ff0000'} />
                 </View>
             </TouchableOpacity>
 

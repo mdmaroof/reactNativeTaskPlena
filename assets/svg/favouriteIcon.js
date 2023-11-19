@@ -1,6 +1,6 @@
 import { G, Path, Svg } from "react-native-svg"
 
-export const FavoriteIcon1 = ({ color = '#323743',fill }) => {
+export const FavoriteIcon1 = ({ color = '#323743', fill }) => {
     return (
         <Svg xmlns="http://www.w3.org/2000/svg" width="20" height="18" viewBox="0 0 15 14" fill={fill || 'none'}>
             <Path
@@ -12,9 +12,9 @@ export const FavoriteIcon1 = ({ color = '#323743',fill }) => {
 }
 
 
-export const FavoriteIcon2 = () => {
+export const FavoriteIcon2 = ({ fill }) => {
     return (
-        <Svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <Svg width="24" height="24" viewBox="0 0 24 24" fill={fill || 'none'} xmlns="http://www.w3.org/2000/svg">
             <G id="Iconly/Two-tone/Heart">
                 <G id="Heart">
                     <G id="Stroke 1">

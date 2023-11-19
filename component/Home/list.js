@@ -4,13 +4,15 @@ import { GetDataContext } from "../../context/mainContext";
 
 export default List = ({ loading, data, navigation }) => {
 
-    const { cartData, setCartData } = GetDataContext();
+    const { cartData, fav, setCartData } = GetDataContext();
 
     const addToCart = (item) => {
         setCartData(prev => [...prev, item])
     }
 
     const renderItemList = ({ item, index }) => {
+        const favAdded = fav.some(z => z === item.id);
+
         return (
             <View
                 style={{
@@ -24,7 +26,7 @@ export default List = ({ loading, data, navigation }) => {
             >
 
                 <View style={{ position: 'absolute', left: 15, top: 15, zIndex: 1 }}>
-                    <FavoriteIcon1 fill="#fff" />
+                    <FavoriteIcon1 fill={favAdded && '#ff0000' || "#fff"} />
                 </View>
 
                 <TouchableOpacity
