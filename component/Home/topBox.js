@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { CartBag } from "../common/cartBag";
 import SearchButton from "../../assets/svg/searchButton";
+import DropDownIcon from '../../assets/svg/dropDownChevron';
 
 export const HeaderBox = ({ navigation }) => {
     return (
@@ -38,11 +39,18 @@ const AddressBox = () => {
         <View style={styles.addressBoxContainer}>
             <View>
                 <Text style={styles.addressBoxHeading}>Delivery to</Text>
-                <Text style={styles.addressBoxtext}>MAroof</Text>
+
+                <View style={{ flexDirection: 'row', gap: 5, alignItems: 'center', paddingTop: 5, }}>
+                    <Text style={styles.addressBoxtext}>Green Way 3000, Sylhet</Text>
+                    <View><DropDownIcon /></View>
+                </View>
             </View>
             <View>
                 <Text style={styles.addressBoxHeading}>Within</Text>
-                <Text style={styles.addressBoxtext}>MAroof</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, paddingTop: 5, }}>
+                    <Text style={styles.addressBoxtext}>1 Hour</Text>
+                    <View><DropDownIcon /></View>
+                </View>
             </View>
         </View>
     )
@@ -99,11 +107,10 @@ const styles = StyleSheet.create({
     addressBoxHeading: {
         color: '#F8F9FB',
         textTransform: 'uppercase',
-        fontSize: 12
+        fontSize: 10
     },
     addressBoxtext: {
         color: '#ffffff',
-        paddingTop: 5,
-        fontSize: 18
+        fontSize: 12
     }
 })

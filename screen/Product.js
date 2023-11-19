@@ -97,7 +97,7 @@ export default function Product({ navigation, route, }) {
                         <Rating data={data} />
                         <Carousel data={data} />
                         <Pricing data={data} />
-                        <Buttons data={data} />
+                        <Buttons data={data} navigation={navigation} />
                         <DetailSection data={data} />
                     </>
                 )}

@@ -2,10 +2,17 @@ import { TouchableOpacity, View, Text } from "react-native";
 
 import { GetDataContext } from "../../context/mainContext";
 
-export default Buttons = ({ data }) => {
+export default Buttons = ({ data, navigation }) => {
     const { cartData, setCartData } = GetDataContext();
 
     const addedInCart = cartData.some(z => z.id === data?.id);
+
+    const buyNow = () => {
+        if (!addedInCart) {
+            setCartData(prev => [...prev, { ...data, qty: 1 }])
+        }
+        navigation.navigate('Cart')
+    }
     return (
         <View style={{ flexDirection: 'row', gap: 10, paddingHorizontal: 20, marginVertical: 20 }}>
 
@@ -41,7 +48,9 @@ export default Buttons = ({ data }) => {
                 </TouchableOpacity>
             )}
 
-            <TouchableOpacity style={{ flex: 1 }}>
+            <TouchableOpacity style={{ flex: 1 }}
+                onPress={() => buyNow(data)}
+            >
                 <View style={{
                     flex: 1,
                     alignItems: 'center',

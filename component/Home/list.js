@@ -5,7 +5,7 @@ import { Plus } from "../../assets/svg/plusMinus";
 
 export default List = ({ loading, data, navigation }) => {
 
-    const { cartData, fav, setCartData ,setFav} = GetDataContext();
+    const { cartData, fav, setCartData, setFav } = GetDataContext();
 
     const addToCart = (item) => {
         setCartData(prev => [...prev, { ...item, qty: 1 }])
@@ -92,7 +92,7 @@ export default List = ({ loading, data, navigation }) => {
                 <Text style={{ fontSize: 30 }}>Recommended</Text>
             </View>
 
-            <View style={{ paddingHorizontal: 20 }}>
+            <View style={{ paddingHorizontal: 20, paddingBottom: 80 }}>
                 {loading && (<Text style={{ textAlign: 'center' }}>Loading</Text>)}
                 {!loading && (
                     <FlatList
