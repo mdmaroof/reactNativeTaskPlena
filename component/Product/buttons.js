@@ -11,7 +11,7 @@ export default Buttons = ({ data }) => {
 
             {!addedInCart && (
                 <TouchableOpacity style={{ flex: 1 }}
-                    onPress={() => setCartData(prev => [...prev, data])}
+                    onPress={() => setCartData(prev => [...prev, { ...data, qty: 1 }])}
                 >
                     <View style={{
                         alignItems: 'center',

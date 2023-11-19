@@ -1,12 +1,41 @@
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { GetDataContext } from '../context/mainContext';
 import BackChevron from '../assets/svg/backChevron';
+import { Plus, Substract } from '../assets/svg/plusMinus';
 
 
 export default function Cart({ navigation }) {
     const { cartData, setCartData } = GetDataContext();
+
+    const substract = (id) => {
+        const checkQty = cartData.find(z => z.id === id);
+        if (checkQty.qty === 1) {
+            setCartData(prev => prev.filter(z => z.id !== id));
+            return
+        }
+
+        setCartData(prev => {
+            const updatedArray = [...prev];
+            const index = updatedArray.findIndex(item => item.id === id);
+            if (index !== -1) {
+                updatedArray[index] = { ...updatedArray[index], qty: updatedArray[index].qty - 1 };
+                return updatedArray
+            }
+        })
+    }
+
+    const addition = (id) => {
+        setCartData(prev => {
+            const updatedArray = [...prev];
+            const index = updatedArray.findIndex(item => item.id === id);
+            if (index !== -1) {
+                updatedArray[index] = { ...updatedArray[index], qty: updatedArray[index].qty + 1 };
+                return updatedArray
+            }
+        })
+    }
 
     const renderItem = ({ item, index }) => (
         <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
@@ -18,19 +47,47 @@ export default function Cart({ navigation }) {
                 borderBottomWidth: 1,
                 borderColor: '#EBEBFB'
             }}>
-                <View>
-                    <Text style={{ fontSize: 18 }}>{item.title}</Text>
-                    <Text style={{ fontSize: 18 }}>${item.price}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View>
+                        <Image
+                            style={{ width: 35, height: 35, marginRight: 10, resizeMode: 'cover' }}
+                            source={{ uri: item.thumbnail }}
+                        />
+                    </View>
+                    <View>
+                        <Text style={{ fontSize: 18, fontWeight: '500' }}>{item.title}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: '300' }}>${item.price}</Text>
+                    </View>
                 </View>
 
-                <View>
-                    <Text>Banana</Text>
-                    <Text>Banana</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                    <TouchableOpacity onPress={() => substract(item.id)} >
+                        <View style={styles.addedSubstractButton} >
+                            <Text style={{ fontSize: 24 }}>
+                                <Substract />
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    <Text>{item.qty}</Text>
+                    <TouchableOpacity onPress={() => addition(item.id)} >
+                        <View style={styles.addedSubstractButton}>
+                            <Text style={{ fontSize: 24 }}>
+                                <Plus />
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+
                 </View>
             </View>
         </View>
 
     )
+
+    const subtotal = () => {
+        return cartData.reduce((acc, curr) => acc + curr.price * curr.qty, 0);
+    }
+    const deliveryCharge = cartData.length > 0 && 5 || 0;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}
@@ -39,7 +96,6 @@ export default function Cart({ navigation }) {
             <View style={styles.container}>
 
                 <View style={styles.topRow}>
-                    {/* back Button */}
                     <TouchableOpacity onPress={() => navigation.goBack()} >
                         <View style={styles.backButton} >
                             <BackChevron />
@@ -51,32 +107,39 @@ export default function Cart({ navigation }) {
                     </View>
                 </View>
 
-           
-                <View style={{ flex: 1, marginBottom: 40 }}>
-                    <FlatList
-                        data={cartData}
-                        renderItem={renderItem}
-                        snapToAlignment={'center'}
-                        decelerationRate={'fast'}
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
+                {cartData.length > 0 && (
+                    <View style={{ flex: 1, marginBottom: 40 }}>
+                        <FlatList
+                            data={cartData}
+                            renderItem={renderItem}
+                            snapToAlignment={'center'}
+                            decelerationRate={'fast'}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                )}
+
+                {cartData.length === 0 && (
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text>Empty Cart</Text>
+                    </View>
+                )}
 
                 <View style={styles.footer}>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Text style={{ fontSize: 20, color: '#616A7D' }}>Subtotal</Text>
-                        <Text style={{ color: '#1E222B', fontSize: 20 }}>$35</Text>
+                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${subtotal()}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 20, color: '#616A7D' }}>Subtotal</Text>
-                        <Text style={{ color: '#1E222B', fontSize: 20 }}>$35</Text>
+                        <Text style={{ fontSize: 20, color: '#616A7D' }}>Delivery</Text>
+                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${deliveryCharge}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Text style={{ fontSize: 20, color: '#616A7D' }}>Subtotal</Text>
-                        <Text style={{ color: '#1E222B', fontSize: 20 }}>$35</Text>
+                        <Text style={{ fontSize: 20, color: '#616A7D' }}>Total</Text>
+                        <Text style={{ color: '#1E222B', fontSize: 20 }}>${subtotal() + deliveryCharge}</Text>
                     </View>
 
                     <TouchableOpacity style={{
@@ -113,7 +176,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#F8F9FB',
         borderRadius: 50,
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    addedSubstractButton: {
+        justifyContent: 'center',
+        backgroundColor: '#F8F9FB',
+        borderRadius: 50,
+        alignItems: 'center',
+        width: 40,
+        height: 40
     },
     footer: {
         backgroundColor: '#F8F9FB',

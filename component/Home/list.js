@@ -7,7 +7,7 @@ export default List = ({ loading, data, navigation }) => {
     const { cartData, fav, setCartData } = GetDataContext();
 
     const addToCart = (item) => {
-        setCartData(prev => [...prev, item])
+        setCartData(prev => [...prev, { ...item, qty: 1 }])
     }
 
     const renderItemList = ({ item, index }) => {
